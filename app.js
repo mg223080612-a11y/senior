@@ -67,6 +67,14 @@ function growPaperIntoCard() {
   }).finished.then(() => flyer);
 }
 
+// 버튼이 나오기 전엔 문장이 카드 한가운데 오도록, 버튼 자리 절반만큼 내려 둠
+function centerQuestion() {
+  const choices = question.querySelector(".choices");
+  const gap = parseFloat(getComputedStyle(choices).marginTop);
+  const drop = (choices.offsetHeight + gap) / 2;
+  question.querySelector(".q-card").style.setProperty("--drop", `${drop}px`);
+}
+
 // 편지를 열면 편지지가 커지며 질문이 슈욱 튀어나옴
 envelope.addEventListener("click", async () => {
   if (envelope.classList.contains("open")) return;
@@ -76,6 +84,7 @@ envelope.addEventListener("click", async () => {
   const growing = growPaperIntoCard();
   letter.classList.add("whoosh");
   const flyer = await growing;
+  centerQuestion();
   show(letter, question);
   requestAnimationFrame(() => flyer.remove());
 });
