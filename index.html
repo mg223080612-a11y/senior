@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>시니어 졸업</title>
+  <title>Goodbye Senior</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet">
@@ -38,16 +41,38 @@
     </div>
   </section>
 
+  <!-- 로그인 후: 둥둥 떠다니는 편지 -->
+  <section id="letter" class="page" aria-hidden="true">
+    <button id="envelope" class="envelope" type="button" aria-label="편지 열기">
+      <span class="env-back"></span>
+      <span class="env-paper"></span>
+      <svg class="env-front" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 1 L150 112 L299 1 V199 H1 Z" />
+        <path class="env-line" d="M1 199 L124 92 M299 199 L176 92" />
+      </svg>
+      <svg class="env-flap" viewBox="0 0 300 116" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 1 H299 L150 115 Z" />
+      </svg>
+      <img class="env-seal" src="assets/icons/icon-192.png" alt="">
+    </button>
+    <p class="hint">편지지를 클릭하시오</p>
+  </section>
+
   <!-- 2페이지: 시니어를 졸업시키시겠습니까? -->
   <section id="question" class="page" aria-hidden="true">
     <img class="ornament" src="assets/ornament.svg" alt="">
-    <img class="title" src="assets/title.png" alt="시니어를 졸업시키시겠습니까?">
+    <img class="title" src="assets/title.svg" alt="시니어를 졸업시키시겠습니까?">
     <img class="ornament" src="assets/ornament.svg" alt="">
     <div class="choices">
       <button id="yes" class="win-btn" type="button">Yes</button>
       <button id="no" class="win-btn" type="button">No</button>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <img src="assets/footer-logo.png" alt="GVCS 문경 글로벌선진학교">
+    <p>© GVCS Class of 2027 · Developed by Dahee Jung</p>
+  </footer>
 
   <script type="module" src="app.js"></script>
 </body>
