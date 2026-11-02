@@ -51,15 +51,33 @@ function goToLetter() {
   }, { once: true });
 }
 
-// 편지를 열면 질문이 슈욱 튀어나옴
+// 편지지가 질문 카드 자리까지 커지며 이어짐
+function growPaperIntoCard() {
+  const from = envelope.querySelector(".env-paper").getBoundingClientRect();
+  const to = question.querySelector(".q-card").getBoundingClientRect();
+  const flyer = document.createElement("div");
+  flyer.className = "flyer frame";
+  document.body.append(flyer);
+  const box = (r) => ({ left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px` });
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return flyer.animate([box(from), box(to)], {
+    duration: reduce ? 1 : 1000,
+    easing: "cubic-bezier(.6, 0, .2, 1)",
+    fill: "forwards",
+  }).finished.then(() => flyer);
+}
+
+// 편지를 열면 편지지가 커지며 질문이 슈욱 튀어나옴
 envelope.addEventListener("click", async () => {
   if (envelope.classList.contains("open")) return;
   envelope.classList.add("open");
   letter.classList.add("opened");
   await wait(1150);
+  const growing = growPaperIntoCard();
   letter.classList.add("whoosh");
-  await wait(700);
+  const flyer = await growing;
   show(letter, question);
+  requestAnimationFrame(() => flyer.remove());
 });
 
 // TODO: Yes / No 를 눌렀을 때의 동작

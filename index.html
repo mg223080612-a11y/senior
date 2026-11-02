@@ -15,6 +15,7 @@
 <body>
   <!-- 1페이지: ㅅㄴㅇ 로고 + 구글 로그인 -->
   <section id="intro" class="page active">
+    <div class="card frame">
     <h1 class="logo" aria-label="ㅅㄴㅇ">
       <svg class="letter" viewBox="0 0 100 80" aria-hidden="true">
         <path d="M0 80 L50 0 L100 80 H89.4 L50 17 L10.6 80 Z"/>
@@ -26,6 +27,7 @@
         <circle cx="40" cy="40" r="35.5" fill="none" stroke-width="9"/>
       </svg>
     </h1>
+    </div>
 
     <div class="login">
       <button id="google-login" class="google-btn" type="button">
@@ -45,7 +47,7 @@
   <section id="letter" class="page" aria-hidden="true">
     <button id="envelope" class="envelope" type="button" aria-label="편지 열기">
       <span class="env-back"></span>
-      <span class="env-paper"></span>
+      <span class="env-paper frame"></span>
       <svg class="env-front" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true">
         <path d="M1 1 L150 112 L299 1 V199 H1 Z" />
         <path class="env-line" d="M1 199 L124 92 M299 199 L176 92" />
@@ -60,18 +62,20 @@
 
   <!-- 2페이지: 시니어를 졸업시키시겠습니까? -->
   <section id="question" class="page" aria-hidden="true">
-    <img class="ornament" src="assets/ornament.svg" alt="">
-    <img class="title" src="assets/title.svg" alt="시니어를 졸업시키시겠습니까?">
-    <img class="ornament" src="assets/ornament.svg" alt="">
-    <div class="choices">
-      <button id="yes" class="win-btn" type="button">Yes</button>
-      <button id="no" class="win-btn" type="button">No</button>
+    <div class="q-card frame">
+      <img class="ornament" src="assets/ornament.svg" alt="">
+      <img class="title" src="assets/title.svg" alt="시니어를 졸업시키시겠습니까?">
+      <img class="ornament" src="assets/ornament.svg" alt="">
+      <div class="choices">
+        <button id="yes" class="win-btn" type="button">Yes</button>
+        <button id="no" class="win-btn" type="button">No</button>
+      </div>
     </div>
   </section>
 
   <footer class="site-footer">
     <img src="assets/footer-logo.png" alt="GVCS 문경 글로벌선진학교">
-    <p>© GVCS Class of 2027 · Developed by Dahee Jung</p>
+    <p>© GVCS Class of 2027 · Designed by Soorin Lee · Developed by Dahee Jung</p>
   </footer>
 
   <script type="module" src="app.js"></script>

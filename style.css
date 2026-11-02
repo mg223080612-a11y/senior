@@ -26,7 +26,49 @@ html, body {
 }
 .page.active { visibility: visible; }
 
+/* ---------- 명함 테두리 (공통) ---------- */
+/* 테두리는 가상 요소에 그려서, 내용과 따로 사라지게 할 수 있음.
+   position 은 각 요소에서 정함 */
+.frame { isolation: isolate; }
+.frame::before,
+.frame::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.frame::after {
+  z-index: -1;
+  inset: 0;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background: linear-gradient(145deg, #121212, #050505 60%, #0d0d0d);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .8), 0 0 40px rgba(255, 204, 0, .08);
+}
+.frame::before {
+  inset: var(--frame-inset, 10px);
+  border: 1px solid rgba(255, 204, 0, .45);
+  border-radius: 2px;
+}
+
 /* ---------- 1페이지 ---------- */
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(560px, 88vw);
+  aspect-ratio: 9 / 5;
+}
+.card .logo { position: relative; z-index: 1; }
+.card::before,
+.card::after { transition: opacity .6s ease .5s, transform .6s ease .5s; }
+#intro.leaving .card::before,
+#intro.leaving .card::after {
+  opacity: 0;
+  transform: scale(.96);
+}
+.card .letter { height: clamp(48px, 11vw, 104px); }
+
 .logo {
   display: flex;
   align-items: flex-end;
@@ -112,10 +154,7 @@ html, body {
   right: 7%;
   top: 8%;
   bottom: 6%;
-  border-radius: 3px;
-  background:
-    repeating-linear-gradient(transparent 0 17px, rgba(160, 120, 40, .18) 17px 18px) 0 26px / 100% calc(100% - 40px) no-repeat,
-    #f5ecd2;
+  --frame-inset: 6px;
   transition: transform .7s cubic-bezier(.2, .8, .2, 1) .45s;
 }
 .env-front, .env-flap {
@@ -165,12 +204,8 @@ html, body {
 .envelope.open .env-paper { transform: translateY(-58%); }
 #letter.opened .hint { animation: none; opacity: 0; }
 
-/* 슈욱: 편지지는 앞으로 튀어나오고 봉투는 아래로 사라짐 */
-#letter.whoosh .env-paper {
-  transform: translateY(-58%) scale(3);
-  opacity: 0;
-  transition: transform .9s cubic-bezier(.5, 0, .9, .4), opacity .9s ease;
-}
+/* 슈욱: 편지지는 질문 카드 크기로 커지고(app.js), 봉투는 아래로 사라짐 */
+#letter.whoosh .env-paper { visibility: hidden; }
 #letter.whoosh .env-back,
 #letter.whoosh .env-front,
 #letter.whoosh .env-flap {
@@ -191,15 +226,30 @@ html, body {
   50%      { opacity: 1; }
 }
 
+/* 편지지가 커지면서 질문 카드가 되는 동안 쓰는 임시 요소 */
+.flyer {
+  position: fixed;
+  z-index: 10;
+  pointer-events: none;
+}
+
 /* ---------- 2페이지 ---------- */
-#question > * { opacity: 0; }
-#question.active > * { animation: fade-in .9s ease forwards; }
-#question.active .title { animation: whoosh-in 1.5s cubic-bezier(.2, 1.2, .4, 1) forwards; }
-#question.active .ornament { animation-name: unfurl; animation-delay: 1s; }
-#question.active .choices { animation-delay: 2.3s; }
+.q-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(720px, 92vw);
+  padding: clamp(24px, 5vw, 48px) clamp(16px, 4vw, 40px);
+}
+.q-card > * { opacity: 0; }
+#question.active .q-card > * { animation: fade-in .9s ease forwards; }
+#question.active .title { animation: whoosh-in 1.4s cubic-bezier(.2, 1.2, .4, 1) forwards; }
+#question.active .ornament { animation-name: unfurl; animation-delay: .9s; }
+#question.active .choices { animation-delay: 2.1s; }
 
 @keyframes whoosh-in {
-  from { opacity: 0; transform: translateY(18vh) scale(.25); filter: blur(6px); }
+  from { opacity: 0; transform: translateY(40px) scale(.3); filter: blur(6px); }
   to   { opacity: 1; transform: none; filter: none; }
 }
 @keyframes unfurl {
@@ -207,16 +257,16 @@ html, body {
   to   { opacity: 1; transform: none; }
 }
 
-.ornament { width: min(400px, 76vw); }
+.ornament { width: min(360px, 62%); }
 .title {
-  width: min(680px, 96vw);
+  width: 100%;
   margin: -2% 0;
 }
 
 .choices {
   display: flex;
   justify-content: space-between;
-  width: min(560px, 80vw);
+  width: min(520px, 86%);
   margin-top: clamp(32px, 6vh, 64px);
 }
 
@@ -277,6 +327,6 @@ html, body {
 
 @media (prefers-reduced-motion: reduce) {
   #intro.leaving .letter { animation-duration: .01s; }
-  #question.active > * { animation-duration: .01s; animation-delay: 0s !important; }
+  #question.active .q-card > * { animation-duration: .01s; animation-delay: 0s !important; }
   .envelope, .hint { animation: none !important; }
 }
