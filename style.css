@@ -1,0 +1,135 @@
+:root {
+  --gold: #ffcc00;
+  --bg: #000;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--gold);
+  font-family: "Gowun Batang", serif;
+  overflow: hidden;
+}
+
+.page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  visibility: hidden;
+}
+.page.active { visibility: visible; }
+
+/* ---------- 1페이지 ---------- */
+.logo {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(14px, 3vw, 30px);
+  margin: 0;
+}
+.letter {
+  height: clamp(60px, 14vw, 140px);
+  width: auto;
+  fill: var(--gold);
+  stroke: var(--gold);
+  overflow: visible;
+}
+.letter path { stroke: none; }
+
+.login {
+  margin-top: clamp(48px, 10vh, 96px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity .4s ease;
+}
+.google-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  background: #fff;
+  color: #3c4043;
+  font: 500 15px/1.2 system-ui, "Malgun Gothic", sans-serif;
+  cursor: pointer;
+}
+.google-btn:hover { background: #f7f8f8; }
+.google-btn:disabled { opacity: .6; cursor: default; }
+.google-btn svg { width: 20px; height: 20px; }
+.login-error {
+  min-height: 1.2em;
+  margin: 12px 0 0;
+  color: #ff8a80;
+  font: 13px system-ui, sans-serif;
+}
+
+/* 로그인 후: 글자가 돌면서 위로 올라감 */
+#intro.leaving .login { opacity: 0; }
+#intro.leaving .letter {
+  animation: spin-up 1.4s cubic-bezier(.55, 0, .75, .2) forwards;
+}
+#intro.leaving .letter:nth-child(2) { animation-delay: .15s; }
+#intro.leaving .letter:nth-child(3) { animation-delay: .3s; }
+
+@keyframes spin-up {
+  0%   { transform: translateY(0) rotate(0); opacity: 1; }
+  15%  { transform: translateY(12px) rotate(-20deg); }
+  100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ---------- 2페이지 ---------- */
+#question > * { opacity: 0; }
+#question.active > * { animation: fade-in .9s ease forwards; }
+#question.active .title { animation-delay: .35s; }
+#question.active .ornament:last-of-type { animation-delay: .7s; }
+#question.active .choices { animation-delay: 1.6s; }
+
+.ornament { width: min(400px, 76vw); }
+.title {
+  width: min(680px, 96vw);
+  margin: -2% 0;
+}
+
+.choices {
+  display: flex;
+  justify-content: space-between;
+  width: min(560px, 80vw);
+  margin-top: clamp(32px, 6vh, 64px);
+}
+
+/* 클래식 윈도우 스타일 버튼 */
+.win-btn {
+  width: 42%;
+  max-width: 220px;
+  padding: 7px 0;
+  background: #c0c0c0;
+  color: #000;
+  font: 15px system-ui, sans-serif;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf, 0 0 0 1px #000;
+  cursor: pointer;
+}
+.win-btn:active {
+  border-color: #404040 #fff #fff #404040;
+  box-shadow: inset 1px 1px #808080, 0 0 0 1px #000;
+}
+.win-btn:focus-visible { outline: 1px dotted #000; outline-offset: -5px; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #intro.leaving .letter { animation-duration: .01s; }
+  #question.active > * { animation-duration: .01s; animation-delay: 0s !important; }
+}
