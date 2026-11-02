@@ -11,6 +11,8 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 const intro = document.getElementById("intro");
+const letter = document.getElementById("letter");
+const envelope = document.getElementById("envelope");
 const question = document.getElementById("question");
 const loginBtn = document.getElementById("google-login");
 const loginError = document.getElementById("login-error");
@@ -20,7 +22,7 @@ loginBtn.addEventListener("click", async () => {
   loginBtn.disabled = true;
   try {
     if (!auth.currentUser) await signInWithPopup(auth, provider);
-    goToQuestion();
+    goToLetter();
   } catch (err) {
     console.error(err);
     if (err.code !== "auth/popup-closed-by-user" && err.code !== "auth/cancelled-popup-request") {
@@ -30,17 +32,35 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-// ㅅㄴㅇ 글자가 돌면서 올라간 뒤 2페이지로 전환
-function goToQuestion() {
+function show(from, to) {
+  from.classList.remove("active");
+  from.setAttribute("aria-hidden", "true");
+  to.classList.add("active");
+  to.removeAttribute("aria-hidden");
+}
+
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// ㅅㄴㅇ 글자가 돌면서 올라간 뒤 편지 화면으로 전환
+function goToLetter() {
   intro.classList.add("leaving");
   const letters = intro.querySelectorAll(".letter");
   letters[letters.length - 1].addEventListener("animationend", () => {
-    intro.classList.remove("active");
-    intro.setAttribute("aria-hidden", "true");
-    question.classList.add("active");
-    question.removeAttribute("aria-hidden");
+    show(intro, letter);
+    envelope.focus({ preventScroll: true });
   }, { once: true });
 }
+
+// 편지를 열면 질문이 슈욱 튀어나옴
+envelope.addEventListener("click", async () => {
+  if (envelope.classList.contains("open")) return;
+  envelope.classList.add("open");
+  letter.classList.add("opened");
+  await wait(1150);
+  letter.classList.add("whoosh");
+  await wait(380);
+  show(letter, question);
+});
 
 // TODO: Yes / No 를 눌렀을 때의 동작
 document.getElementById("yes").addEventListener("click", () => {});
