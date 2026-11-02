@@ -58,7 +58,7 @@ envelope.addEventListener("click", async () => {
   letter.classList.add("opened");
   await wait(1150);
   letter.classList.add("whoosh");
-  await wait(380);
+  await wait(700);
   show(letter, question);
 });
 

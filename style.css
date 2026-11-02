@@ -169,14 +169,14 @@ html, body {
 #letter.whoosh .env-paper {
   transform: translateY(-58%) scale(3);
   opacity: 0;
-  transition: transform .45s cubic-bezier(.5, 0, .9, .4), opacity .45s ease;
+  transition: transform .9s cubic-bezier(.5, 0, .9, .4), opacity .9s ease;
 }
 #letter.whoosh .env-back,
 #letter.whoosh .env-front,
 #letter.whoosh .env-flap {
   transform: translateY(60px);
   opacity: 0;
-  transition: transform .45s ease-in, opacity .45s ease-in;
+  transition: transform .8s ease-in, opacity .8s ease-in;
 }
 
 @keyframes float {
@@ -194,9 +194,9 @@ html, body {
 /* ---------- 2페이지 ---------- */
 #question > * { opacity: 0; }
 #question.active > * { animation: fade-in .9s ease forwards; }
-#question.active .title { animation: whoosh-in .75s cubic-bezier(.2, 1.3, .4, 1) forwards; }
-#question.active .ornament { animation-name: unfurl; animation-delay: .45s; }
-#question.active .choices { animation-delay: 1.3s; }
+#question.active .title { animation: whoosh-in 1.5s cubic-bezier(.2, 1.2, .4, 1) forwards; }
+#question.active .ornament { animation-name: unfurl; animation-delay: 1s; }
+#question.active .choices { animation-delay: 2.3s; }
 
 @keyframes whoosh-in {
   from { opacity: 0; transform: translateY(18vh) scale(.25); filter: blur(6px); }
