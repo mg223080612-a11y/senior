@@ -61,10 +61,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: pump 2.6s ease-in-out infinite;
 }
 .card .logo { position: relative; z-index: 1; }
-#intro.leaving .card { animation: none; }
 .card::before,
 .card::after { transition: opacity .6s ease .5s, transform .6s ease .5s; }
 #intro.leaving .card::before,
