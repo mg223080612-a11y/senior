@@ -253,32 +253,36 @@ html, body {
   align-items: center;
   width: 100%;
 }
-.q-head > *, .choices { opacity: 0; }
-#question.active .title { animation: whoosh-in 1.4s cubic-bezier(.2, 1.2, .4, 1) forwards; }
-#question.active .q-head { animation: rise .9s cubic-bezier(.4, 0, .2, 1) 1.7s both; }
-#question.active .ornament { animation: unfurl .9s ease 1.9s forwards; }
+.q-head, .choices { opacity: 0; }
+/* 문장과 위아래 장식이 한 덩어리로 슈욱 나왔다가, 잠시 뒤 함께 위로 올라감 */
+#question.active .q-head { animation: whoosh-then-rise 2.6s forwards; }
 #question.active .choices { animation: fade-in .7s ease 2.8s forwards; }
 /* 내용이 다 나온 뒤부터 두근두근 */
 #question.active .q-card { animation: pump 2.6s ease-in-out 3.6s infinite; }
 
-@keyframes rise {
-  from { transform: translateY(var(--drop, 0px)); }
-  to   { transform: none; }
+@keyframes whoosh-then-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(var(--drop, 0px) + 40px)) scale(.3);
+    filter: blur(6px);
+    animation-timing-function: cubic-bezier(.2, 1.2, .4, 1);
+  }
+  54% {
+    opacity: 1;
+    transform: translateY(var(--drop, 0px));
+    filter: none;
+  }
+  65% {
+    transform: translateY(var(--drop, 0px));
+    animation-timing-function: cubic-bezier(.4, 0, .2, 1);
+  }
+  100% { opacity: 1; transform: none; }
 }
 
 /* 펌프: 일정한 속도로 커졌다 작아졌다 반복 */
 @keyframes pump {
   0%, 100% { transform: scale(1); }
   50%      { transform: scale(1.03); }
-}
-
-@keyframes whoosh-in {
-  from { opacity: 0; transform: translateY(40px) scale(.3); filter: blur(6px); }
-  to   { opacity: 1; transform: none; filter: none; }
-}
-@keyframes unfurl {
-  from { opacity: 0; transform: scaleX(0); }
-  to   { opacity: 1; transform: none; }
 }
 
 .ornament { width: min(360px, 62%); }
