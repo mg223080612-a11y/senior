@@ -140,7 +140,7 @@ html, body {
   background: none;
   cursor: pointer;
   perspective: 900px;
-  animation: float 3.2s ease-in-out infinite;
+  animation: pump 2.6s ease-in-out infinite;
 }
 .envelope > * { position: absolute; }
 /* 쌓임 순서: 열린 뚜껑 < 봉투 뒷면 < 편지지 < 봉투 앞면 < 닫힌 뚜껑 < 봉인 */
@@ -217,10 +217,6 @@ html, body {
   transition: transform .8s ease-in, opacity .8s ease-in;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50%      { transform: translateY(-18px) rotate(2deg); }
-}
 @keyframes appear {
   from { opacity: 0; }
 }
