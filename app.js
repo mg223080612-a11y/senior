@@ -5,7 +5,7 @@ import {
   signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { firebaseConfig } from "./firebase-config.js";
-import { EVENT, inviteeName } from "./invite.js";
+import { EVENT, invitee } from "./invite.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -42,9 +42,11 @@ function show(from, to) {
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// 편지 내용 채우기: 로그인한 선생님 이름 + 사은회 정보
-function fillInvite() {
-  document.getElementById("invite-name").textContent = inviteeName(auth.currentUser);
+// 편지 내용 채우기: 로그인한 사람 이름(선생님/학생) + 사은회 정보
+async function fillInvite() {
+  const { name, title } = await invitee(auth.currentUser);
+  document.getElementById("invite-name").textContent = name;
+  document.getElementById("invite-title").textContent = title;
   document.getElementById("invite-when").textContent = `${EVENT.date} ${EVENT.time}`;
   document.getElementById("invite-place").textContent = EVENT.place;
 }
@@ -98,7 +100,7 @@ envelope.addEventListener("click", async () => {
   requestAnimationFrame(() => flyer.remove());
 });
 
-// Yes: 질문 대신 "___ 선생님, … 초대되셨습니다" 초대 문구가 나타남
+// Yes: 질문 대신 "___ 선생님/학생, … 초대되셨습니다" 초대 문구가 나타남
 document.getElementById("yes").addEventListener("click", () => {
   question.classList.add("invited");
 });
