@@ -5,6 +5,7 @@ import {
   signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { firebaseConfig } from "./firebase-config.js";
+import { EVENT, inviteeName } from "./invite.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -41,8 +42,16 @@ function show(from, to) {
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// 편지 내용 채우기: 로그인한 선생님 이름 + 사은회 정보
+function fillInvite() {
+  document.getElementById("invite-name").textContent = inviteeName(auth.currentUser);
+  document.getElementById("invite-when").textContent = `${EVENT.date} ${EVENT.time}`;
+  document.getElementById("invite-place").textContent = EVENT.place;
+}
+
 // ㅅㄴㅇ 글자가 돌면서 올라간 뒤 편지 화면으로 전환
 function goToLetter() {
+  fillInvite();
   intro.classList.add("leaving");
   const letters = intro.querySelectorAll(".letter");
   letters[letters.length - 1].addEventListener("animationend", () => {
@@ -75,7 +84,19 @@ function centerQuestion() {
   question.querySelector(".q-card").style.setProperty("--drop", `${drop}px`);
 }
 
-// 편지를 열면 편지지가 커지며 질문이 슈욱 튀어나옴
+// 초대 문구를 읽을 시간: 이만큼 지나거나 카드를 누르면 질문으로 넘어감
+const INVITE_HOLD_MS = 5000;
+
+function waitForReader() {
+  const card = question.querySelector(".q-card");
+  const done = new AbortController();
+  return Promise.race([
+    wait(INVITE_HOLD_MS),
+    new Promise((r) => card.addEventListener("click", r, { signal: done.signal })),
+  ]).finally(() => done.abort());
+}
+
+// 편지를 열면 편지지가 커지며 초대 문구가 보이고, 이어서 질문이 슈욱 튀어나옴
 envelope.addEventListener("click", async () => {
   if (envelope.classList.contains("open")) return;
   envelope.classList.add("open");
@@ -85,8 +106,11 @@ envelope.addEventListener("click", async () => {
   letter.classList.add("whoosh");
   const flyer = await growing;
   centerQuestion();
+  question.classList.add("inviting");
   show(letter, question);
   requestAnimationFrame(() => flyer.remove());
+  await waitForReader();
+  question.classList.replace("inviting", "asking");
 });
 
 // TODO: Yes / No 를 눌렀을 때의 동작

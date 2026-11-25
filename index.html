@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&text=%ED%8E%B8%EC%A7%80%EC%A7%80%EB%A5%BC%ED%81%B4%EB%A6%AD%ED%95%98%EC%8B%9C%EC%98%A4&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -63,6 +63,17 @@
   <!-- 2페이지: 시니어를 졸업시키시겠습니까? -->
   <section id="question" class="page" aria-hidden="true">
     <div class="q-card frame">
+      <!-- 편지 내용: 질문보다 먼저 보여 줌 -->
+      <div class="invite">
+        <img class="ornament" src="assets/ornament.svg" alt="">
+        <p class="invite-text">
+          <strong id="invite-name"></strong>님,<br>
+          <span id="invite-when"></span><br>
+          <span id="invite-place"></span>에서 열리는<br>
+          시니어 사은회에 초대되셨습니다.
+        </p>
+        <img class="ornament" src="assets/ornament.svg" alt="">
+      </div>
       <div class="q-head">
         <img class="ornament" src="assets/ornament.svg" alt="">
         <img class="title" src="assets/title.svg" alt="시니어를 졸업시키시겠습니까?">
