@@ -275,15 +275,16 @@ html, body {
   word-break: keep-all;
 }
 .invite-text strong { font-size: 1.2em; }
-#question.inviting .invite { animation: fade-in .9s ease .1s forwards; }
-#question.asking .invite { animation: fade-out .5s ease forwards; }
-#question.inviting .q-card { cursor: pointer; }
-
 /* 문장과 위아래 장식이 한 덩어리로 슈욱 나왔다가, 잠시 뒤 함께 위로 올라감 */
-#question.asking .q-head { animation: whoosh-then-rise 2.6s .4s forwards; }
-#question.asking .choices { animation: fade-in .7s ease 3.2s forwards; }
+#question.active .q-head { animation: whoosh-then-rise 2.6s forwards; }
+#question.active .choices { animation: fade-in .7s ease 2.8s forwards; }
 /* 내용이 다 나온 뒤부터 두근두근 */
-#question.asking .q-card { animation: pump 2.6s ease-in-out 4s infinite; }
+#question.active .q-card { animation: pump 2.6s ease-in-out 3.6s infinite; }
+
+/* Yes 를 누르면: 질문과 버튼이 사라지고 초대 문구가 나타남 */
+#question.invited .q-head,
+#question.invited .choices { animation: fade-out .5s ease forwards; pointer-events: none; }
+#question.invited .invite { animation: fade-in .9s ease .4s forwards; }
 
 @keyframes whoosh-then-rise {
   0% {

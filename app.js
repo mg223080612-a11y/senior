@@ -84,19 +84,7 @@ function centerQuestion() {
   question.querySelector(".q-card").style.setProperty("--drop", `${drop}px`);
 }
 
-// 초대 문구를 읽을 시간: 이만큼 지나거나 카드를 누르면 질문으로 넘어감
-const INVITE_HOLD_MS = 5000;
-
-function waitForReader() {
-  const card = question.querySelector(".q-card");
-  const done = new AbortController();
-  return Promise.race([
-    wait(INVITE_HOLD_MS),
-    new Promise((r) => card.addEventListener("click", r, { signal: done.signal })),
-  ]).finally(() => done.abort());
-}
-
-// 편지를 열면 편지지가 커지며 초대 문구가 보이고, 이어서 질문이 슈욱 튀어나옴
+// 편지를 열면 편지지가 커지며 질문이 슈욱 튀어나옴
 envelope.addEventListener("click", async () => {
   if (envelope.classList.contains("open")) return;
   envelope.classList.add("open");
@@ -106,13 +94,14 @@ envelope.addEventListener("click", async () => {
   letter.classList.add("whoosh");
   const flyer = await growing;
   centerQuestion();
-  question.classList.add("inviting");
   show(letter, question);
   requestAnimationFrame(() => flyer.remove());
-  await waitForReader();
-  question.classList.replace("inviting", "asking");
 });
 
-// TODO: Yes / No 를 눌렀을 때의 동작
-document.getElementById("yes").addEventListener("click", () => {});
+// Yes: 질문 대신 "___ 선생님, … 초대되셨습니다" 초대 문구가 나타남
+document.getElementById("yes").addEventListener("click", () => {
+  question.classList.add("invited");
+});
+
+// TODO: No 를 눌렀을 때의 동작
 document.getElementById("no").addEventListener("click", () => {});
